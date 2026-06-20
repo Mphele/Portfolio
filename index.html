@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mphele Moswane — Backend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">m.m</span>
+      <span class="brand-name">mphele moswane</span>
+      <span class="status-pill">
+        <span class="status-dot"></span>
+        available · seeking internships
+      </span>
+    </div>
+    <nav class="routes">
+      <a href="#context">context</a>
+      <a href="#work">work</a>
+      <a href="#awards">awards</a>
+      <a href="#stack">stack</a>
+      <a href="#reach">reach</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="eyebrow">
+          <span>backend developer &amp; logical problem solver</span>
+          <span class="sep">·</span>
+          <span>WeThinkCode_ student</span>
+          <span class="sep">·</span>
+          <span class="avail">open to internships</span>
+        </div>
+        <h1 class="headline">
+          Driven by system complexity<br>
+          and <em>scalability.</em>
+        </h1>
+        <p class="hero-sub">
+          Software engineering student at WeThinkCode_ building backend systems with Java (Spring Boot), Python, and Go. CompTIA A+ certified — I understand the full stack, right down to the silicon. <strong>Two-time national hackathon champion.</strong>
+        </p>
+        <div class="hero-cta">
+          <a href="#work" class="cta-primary">see the work →</a>
+          <a href="#reach" class="cta-secondary">get in touch</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="dashboard">
+          <div class="dash-header">
+            <span class="dash-title">git log --author="mphele" --live</span>
+            <span id="dash-clock">--:--:-- utc</span>
+          </div>
+          <div class="dash-body">
+            <div class="metric-row">
+              <span class="metric-label">commits this week</span>
+              <span class="metric-value accent" id="m-commits">47</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">top language</span>
+              <span class="metric-value" id="m-lang">Python <small>74%</small></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">most active day</span>
+              <span class="metric-value" id="m-day">Saturday</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">code time (week)</span>
+              <span class="metric-value" id="m-time">68h 15m</span>
+            </div>
+            <div class="spark-wrap">
+              <div class="spark-label">
+                <span>commits · last 7 days</span>
+                <span id="spark-peak">peak 23 (sat)</span>
+              </div>
+              <canvas class="spark" id="spark"></canvas>
+            </div>
+            <div class="logs" id="logs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="context">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">context</h2>
+    </div>
+    <div class="about-grid">
+      <div class="portrait-col">
+        <div class="portrait-frame">
+          <img src="https://i.ibb.co/0vBZPzd/m.jpg" alt="Mphele Moswane">
+        </div>
+        <div class="portrait-caption">Johannesburg, ZA · 2024</div>
+      </div>
+      <div class="about-body">
+        <p>
+          I'm a software engineering student at WeThinkCode_ in Johannesburg. I build backend systems, data pipelines, and APIs — the stuff that has to be right because everything else stands on it. Most of my work lives at the intersection of Java services, Python data layers, and the kind of infrastructure decisions that other students don't think about until something breaks at 2am.
+        </p>
+
+        <pre class="codeblock"><span class="kw">package</span> main
+
+<span class="kw">type</span> <span class="ty">Mphele</span> <span class="kw">struct</span> {
+    CurrentlyAt  <span class="kw">string</span>
+    FocusingOn   []<span class="kw">string</span>
+    Belief       <span class="kw">string</span>
+    Foundation   <span class="kw">string</span>
+    Interests    []<span class="kw">string</span>
+}
+
+<span class="kw">func</span> <span class="ty">main</span>() {
+    me := <span class="ty">Mphele</span>{
+        CurrentlyAt:  <span class="str">"WeThinkCode_"</span>,
+        FocusingOn:   []<span class="kw">string</span>{<span class="str">"Backend Engineering"</span>, <span class="str">"Data Pipelines"</span>, <span class="str">"Scalable APIs"</span>},
+        Belief:       <span class="str">"A well-designed API is the foundation of any great UX."</span>,
+        Foundation:   <span class="str">"CompTIA A+ — I see both sides, software &amp; hardware"</span>,
+        Interests:    []<span class="kw">string</span>{<span class="str">"Music"</span>, <span class="str">"Sports"</span>, <span class="str">"Gaming"</span>, <span class="str">"Socioeconomics"</span>},
+    }
+}</pre>
+
+        <p>
+          Before code, I started with hardware. CompTIA A+ certified — I spent time taking machines apart, understanding what happens at the silicon level, and learning why things fail physically. That foundation changed how I think about software: <strong>every system is physical somewhere, every abstraction leaks, and the hardware doesn't care about your framework.</strong>
+        </p>
+
+        <div class="pullquote">
+          "A well-designed API is the foundation of any great user experience."
+        </div>
+
+        <p class="dim">
+          I play to win hackathons. Not for the prizes — for the 48-hour constraint that forces you to make architectural decisions you'd otherwise overthink for a month. Two national wins so far, and I'm not done. When I'm not coding, I'm gaming, making music, watching sports, or arguing about socioeconomics and why tech for good isn't just a buzzword.
+        </p>
+
+        <div class="currently">
+          <div class="currently-label">currently learning</div>
+          <div class="currently-item"><span class="arrow">→</span> distributed systems &amp; event-driven architecture</div>
+          <div class="currently-item"><span class="arrow">→</span> docker &amp; kubernetes orchestration</div>
+          <div class="currently-item"><span class="arrow">→</span> static analysis &amp; cybersecurity tooling</div>
+          <div class="currently-item"><span class="arrow">→</span> advanced sql &amp; database optimization</div>
+          <div class="currently-item"><span class="arrow">→</span> ml integration in backend pipelines</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="work">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">things built</h2>
+    </div>
+    <div class="work-table">
+      <div class="work-row head">
+        <span>name</span>
+        <span>what it does</span>
+        <span>stack</span>
+        <span>year</span>
+        <span></span>
+      </div>
+
+      <div class="work-row" data-detail>
+        <span class="work-name">doria</span>
+        <span class="work-what">security scanner for AI-assisted dev</span>
+        <span class="work-stack">python · rust · js</span>
+        <span class="work-year">2025</span>
+        <span class="work-arrow">→</span>
+        <div class="work-detail">
+          <div class="work-detail-grid">
+            <div class="work-detail-text">
+              Catches slopsquatting attacks — when an LLM hallucinates a package name that doesn't exist, an attacker can register it with malware. Doria scans import metadata, cross-references real registries, and flags hallucinated package names before they reach disk. No code execution. The scanning engine is Rust for speed; the CLI and plugin layer are Python; the dashboard is vanilla JS. Won national champions at the ITWeb Security Summit Hackathon 2026 out of every competing team in the country.
+            </div>
+            <div>
+              <div class="work-detail-visual">
+                <img src="https://i.ibb.co/dwHPgJNs/doria.jpg" alt="Doria CLI running in terminal">
+                <div class="visual-caption">fig 1. doria cli flagging hallucinated packages</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-row" data-detail>
+        <span class="work-name">uwatu</span>
+        <span class="work-what">event-driven agritech platform</span>
+        <span class="work-stack">go · typescript · python</span>
+        <span class="work-year">2024</span>
+        <span class="work-arrow">→</span>
+        <div class="work-detail">
+          <div class="work-detail-grid">
+            <div class="work-detail-text">
+              Bridges IoT telemetry from livestock sensors, telecom network signals, and ML models to monitor animal health in real-time. Go backend handles event ingestion and routing at scale. Python layer runs predictive models that flag early signs of illness. TypeScript frontend visualizes herd status. Built for African agricultural contexts — intermittent connectivity, high stakes, low margin for error, and animals that can't wait for a retry.
+            </div>
+            <div>
+              <div class="work-detail-visual">
+                <img src="https://i.ibb.co/nsG84DgG/sim.jpg" alt="Uwatu simulator">
+                <div class="visual-caption">fig 2. uwatu telemetry simulator</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-row" data-detail>
+        <span class="work-name">afyaai</span>
+        <span class="work-what">health triage assistant</span>
+        <span class="work-stack">python · fastapi</span>
+        <span class="work-year">2024</span>
+        <span class="work-arrow">→</span>
+        <div class="work-detail">
+          <div class="work-detail-grid">
+            <div class="work-detail-text">
+              Conversational healthcare access powered by Gemini. Triages symptoms, suggests next steps, and knows when to escalate to a human. FastAPI backend with streaming responses so the user isn't staring at a spinner. Designed for communities where seeing a doctor isn't always an option — the API is deliberately simple because the users can't afford complexity. Won 1st place at the Mjanga AI Hackathon, Africa-wide.
+            </div>
+            <div>
+              <div class="work-detail-visual">
+                <!-- Using Sieve's FastAPI screenshot as a placeholder for AfyaAI since both use FastAPI -->
+                <img src="https://i.ibb.co/yF9hQJdL/sievebackend.jpg" alt="FastAPI backend documentation">
+                <div class="visual-caption">fig 3. fastapi auto-docs for triage endpoints</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-row" data-detail>
+        <span class="work-name">sieve</span>
+        <span class="work-what">recruiter-first ATS</span>
+        <span class="work-stack">python · fastapi</span>
+        <span class="work-year">2024</span>
+        <span class="work-arrow">→</span>
+        <div class="work-detail">
+          <div class="work-detail-grid">
+            <div class="work-detail-text">
+              An ATS built to put recruiters back in control. Instead of replacing human judgment, Sieve surfaces what matters and flags false positives from automated screening. AI-assisted ranking that respects recruiter intuition over algorithmic authority. Python/FastAPI backend with a clean REST API. The core insight: most ATS systems optimize for the hiring manager. Sieve optimizes for the person who actually reads the resumes.
+            </div>
+            <div>
+              <div class="work-detail-visual">
+                <img src="https://i.ibb.co/yF9hQJdL/sievebackend.jpg" alt="Sieve FastAPI backend">
+                <div class="visual-caption">fig 4. sieve fastapi backend interface</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="awards">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">awards</h2>
+    </div>
+    <div class="awards-list">
+      <div class="award-block">
+        <div class="award-left">
+          <div class="award-placement">1st place · national champions</div>
+          <div class="award-meta">
+            Sandton Convention Centre<br>
+            Johannesburg, South Africa<br>
+            48-hour build
+          </div>
+        </div>
+        <div class="award-right">
+          <div class="award-title">ITWeb Security Summit Hackathon 2026</div>
+          <div class="award-desc">
+            Built <strong>Doria</strong> in 48 hours — a security tool that catches slopsquatting attacks in AI-assisted development. Scans import metadata, flags AI-hallucinated package names that attackers register with malware, and warns before they reach disk. No code execution required. Beat every competing team in the country.
+          </div>
+          <div class="award-image">
+            <img src="https://i.ibb.co/4xqtMY8/hackathon-win.jpg" alt="ITWeb Hackathon Win">
+          </div>
+        </div>
+      </div>
+
+      <div class="award-block">
+        <div class="award-left">
+          <div class="award-placement">1st place · africa-wide</div>
+          <div class="award-meta">
+            Remote<br>
+            Continental competition
+          </div>
+        </div>
+        <div class="award-right">
+          <div class="award-title">Mjanga AI Hackathon</div>
+          <div class="award-desc">
+            Built <strong>AfyaAI</strong> — a health triage assistant bringing conversational healthcare access to underserved communities. Powered by Gemini, designed for low-connectivity environments, with a FastAPI backend that streams responses. Beat teams from across the African continent.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="stack">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">what i reach for</h2>
+    </div>
+    <div class="stack-body">
+      <p>
+        Day to day I write <code>Java</code> with <code>Spring Boot</code>, <code>Python</code>, and <code>Go</code> — Java for robust, enterprise-grade services, Python for data pipelines and ML integration, Go for concurrent, high-performance systems. I've also shipped code in <code>Rust</code> and <code>TypeScript</code> when the constraints demanded it. <code>Bash</code> for everything in between.
+      </p>
+      <p>
+        For state, <code>PostgreSQL</code> is my default — I'll reach for <code>MySQL</code> or <code>SQLite</code> when the constraints call for them. <code>FastAPI</code> for Python services because the async story is clean and the OpenAPI docs come for free. <code>Linux</code> on every machine I own. <code>Docker</code> for anything that needs to run somewhere else, and I'm working toward <code>Kubernetes</code> for the things that need to run everywhere.
+      </p>
+      <p>
+        I'm not religious about tools. I'm religious about APIs — because a well-designed API is the foundation of any great user experience, and a badly designed one is a tax every future developer pays. I'll learn your stack. I'll have opinions about it. I'll be honest about them.
+      </p>
+
+      <div class="tech-logos">
+        <img src="https://skillicons.dev/icons?i=java" alt="Java" title="Java">
+        <img src="https://skillicons.dev/icons?i=spring" alt="Spring Boot" title="Spring Boot">
+        <img src="https://skillicons.dev/icons?i=python" alt="Python" title="Python">
+        <img src="https://skillicons.dev/icons?i=go" alt="Go" title="Go">
+        <img src="https://skillicons.dev/icons?i=postgres" alt="PostgreSQL" title="PostgreSQL">
+        <img src="https://skillicons.dev/icons?i=docker" alt="Docker" title="Docker">
+        <img src="https://skillicons.dev/icons?i=kubernetes" alt="Kubernetes" title="Kubernetes">
+        <img src="https://skillicons.dev/icons?i=linux" alt="Linux" title="Linux">
+        <img src="https://skillicons.dev/icons?i=git" alt="Git" title="Git">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="reach">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">reach</h2>
+    </div>
+    <div class="contact-body">
+
+      <div class="contact-line">
+        <span class="label">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          github
+        </span>
+        <a href="https://github.com/Mphele" target="_blank">github.com/Mphele</a>
+      </div>
+
+      <div class="contact-line">
+        <span class="label">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          linkedin
+        </span>
+        <a href="https://www.linkedin.com/in/mphelemoswane/" target="_blank">linkedin.com/in/mphelemoswane</a>
+      </div>
+
+      <div class="contact-line">
+        <span class="label">location</span>
+        Johannesburg, South Africa
+      </div>
+      <div class="contact-line">
+        <span class="label">email</span>
+        <a href="mailto:mphele@example.com">available on request</a>
+      </div>
+
+      <div class="open-to">
+        <div class="open-to-label">open to</div>
+        <div class="open-to-item"><span class="arrow">→</span> internship &amp; graduate roles in software engineering</div>
+        <div class="open-to-item"><span class="arrow">→</span> open source contributions &amp; interesting side projects</div>
+        <div class="open-to-item"><span class="arrow">→</span> conversations about socioeconomics &amp; tech for good</div>
+        <div class="open-to-item"><span class="arrow">→</span> hackathon invitations — if there's one, tell me</div>
+      </div>
+
+      <p class="contact-prose">
+        I read everything. I reply to most things. If I don't reply immediately, I'm probably at a hackathon.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span>last commit · a3f29c · main</span>
+      <span>no analytics · no tracking · no cookies</span>
+      <span>© mphele moswane</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
