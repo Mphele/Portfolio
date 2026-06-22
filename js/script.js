@@ -17,16 +17,110 @@ function tickClock() {
 setInterval(tickClock, 1000);
 tickClock();
 
-// ===== Metric updates =====
-const metrics = { commits: 47 };
+// ===== GitHub Stats — fetch real data from profile README + Streak Stats =====
+const GITHUB_USER = 'Mphele';
 
-function updateMetrics() {
-  metrics.commits += Math.random() > 0.6 ? 1 : 0;
-  const pyPct = (72 + Math.random() * 4).toFixed(0);
-  document.getElementById('m-commits').textContent = metrics.commits;
-  document.getElementById('m-lang').innerHTML = `Python <small>${pyPct}%</small>`;
+// Defaults (used while loading or if fetch fails)
+let liveStats = {
+  commits: '—',
+  topLang: 'Python',
+  mostActiveDay: 'Saturday',
+};
+
+// Render stats into the DOM
+function renderStats() {
+  document.getElementById('m-commits').textContent = liveStats.commits;
+  document.getElementById('m-lang').textContent = liveStats.topLang;
+  document.getElementById('m-day').textContent = liveStats.mostActiveDay;
 }
-setInterval(updateMetrics, 3000);
+
+// Parse the WakaTime README for language and most active day only
+function parseWakaTimeReadme(text) {
+  // Parse "I'm Most Productive on ___"
+  const dayMatch = text.match(/Most Productive on (\w+)/i);
+  if (dayMatch) liveStats.mostActiveDay = dayMatch[1];
+
+  // Parse "I Mostly Code in ___" — just the language name, no percentage
+  const langMatch = text.match(/Mostly Code in (\w[\w#+]*)/i);
+  if (langMatch) liveStats.topLang = langMatch[1];
+}
+
+// Fetch real total contributions from GitHub Streak Stats SVG
+async function fetchStreakStats() {
+  try {
+    const res = await fetch(
+      `https://streak-stats.demolab.com/?user=${GITHUB_USER}&hide_border=true&type=svg`,
+      { cache: 'no-store' }
+    );
+    if (res.ok) {
+      const svgText = await res.text();
+      // The SVG contains the total contributions as text, e.g. "615"
+      // It appears in a <text> element after "Total Contributions"
+      const totalMatch = svgText.match(/<text[^>]*>(\d+)<\/text>/);
+      if (totalMatch) {
+        liveStats.commits = parseInt(totalMatch[1], 10);
+        return;
+      }
+      // Alternative: look for the number near "Total Contributions"
+      const altMatch = svgText.match(/(\d+)\s*<\/text>\s*[\s\S]*?Total Contributions/i);
+      if (altMatch) {
+        liveStats.commits = parseInt(altMatch[1], 10);
+        return;
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to fetch streak stats:', err);
+  }
+}
+
+// Main fetch function
+async function fetchGitHubStats() {
+  // Fetch README for language and most active day
+  try {
+    const readmeRes = await fetch(
+      `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_USER}/main/README.md`,
+      { cache: 'no-store' }
+    );
+    if (readmeRes.ok) {
+      const readmeText = await readmeRes.text();
+      parseWakaTimeReadme(readmeText);
+    }
+  } catch (err) {
+    console.warn('Failed to fetch GitHub README:', err);
+  }
+
+  // Fetch real commit count from streak stats
+  await fetchStreakStats();
+
+  // If streak stats failed, try GitHub Events API as fallback
+  if (liveStats.commits === '—') {
+    try {
+      const eventsRes = await fetch(
+        `https://api.github.com/users/${GITHUB_USER}/events/public?per_page=100`
+      );
+      if (eventsRes.ok) {
+        const events = await eventsRes.json();
+        let pushCommits = 0;
+        events.forEach(ev => {
+          if (ev.type === 'PushEvent' && ev.payload && ev.payload.commits) {
+            pushCommits += ev.payload.commits.length;
+          }
+        });
+        if (pushCommits > 0) liveStats.commits = pushCommits;
+      }
+    } catch (err) {
+      console.warn('Failed to fetch GitHub events:', err);
+    }
+  }
+
+  // Final fallback
+  if (liveStats.commits === '—') liveStats.commits = 615;
+
+  renderStats();
+}
+
+// Kick off the fetch on page load
+fetchGitHubStats();
 
 // ===== Sparkline — commits per day, Saturday peaks =====
 const sparkCanvas = document.getElementById('spark');
@@ -110,15 +204,15 @@ window.addEventListener('resize', drawSpark);
 const commitMessages = [
   ['feat', '(doria): flag hallucinated package imports'],
   ['fix', '(uwatu): mqtt reconnect under packet loss'],
-  ['feat', '(afyaai): stream gemini triage responses'],
+  ['feat', '(afya): stream gemini triage responses'],
   ['feat', '(sieve): fastapi api skeleton'],
   ['docs', 'api contract for /v1/livestock/events'],
   ['feat', '(doria): cross-ref npm registry for typos'],
-  ['fix', '(afyaai): handle gemini rate limits gracefully'],
+  ['fix', '(afya): handle gemini rate limits gracefully'],
   ['test', '(uwatu): mqtt payload parsing edge cases'],
   ['feat', '(sieve): recruiter feedback endpoint'],
   ['refactor', '(doria): extract scanner into rust module'],
-  ['chore', 'dockerize afyaai for deployment'],
+  ['chore', 'dockerize afya for deployment'],
   ['fix', '(uwatu): timezone offset in telemetry'],
   ['feat', '(uwatu): add sms alert pipeline'],
   ['docs', 'update openapi spec for /v1/triage'],
