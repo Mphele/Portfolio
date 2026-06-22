@@ -318,11 +318,17 @@ function drawSpark() {
     sparkCtx.fill();
   });
 
-  sparkCtx.fillStyle = 'rgba(74, 70, 63, 0.8)';
   sparkCtx.font = '9px JetBrains Mono';
-  sparkCtx.textAlign = 'center';
   dayLabels.forEach((label, i) => {
     const x = i * stepX;
+    sparkCtx.fillStyle = 'rgba(180, 170, 155, 0.85)';
+    if (i === 0) {
+      sparkCtx.textAlign = 'left';
+    } else if (i === dayLabels.length - 1) {
+      sparkCtx.textAlign = 'right';
+    } else {
+      sparkCtx.textAlign = 'center';
+    }
     sparkCtx.fillText(label, x, h - 1);
   });
 }
