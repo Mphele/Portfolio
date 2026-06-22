@@ -27,14 +27,19 @@ let liveStats = {
   mostActiveDay: 'Saturday',
 };
 
+// WakaTime day-of-week data (parsed from README, used as sparkline fallback)
+let wakaWeekData = null; // { data: [mon,tue,...,sun], peakIdx, peakDay, peakVal }
+
 // Render stats into the DOM
 function renderStats() {
-  document.getElementById('m-commits').textContent = liveStats.commits;
   document.getElementById('m-lang').textContent = liveStats.topLang;
   document.getElementById('m-day').textContent = liveStats.mostActiveDay;
+  // Keep spark-peak in sync with most active day
+  document.getElementById('spark-peak').textContent =
+    'most active: ' + liveStats.mostActiveDay.toLowerCase();
 }
 
-// Parse the WakaTime README for language and most active day only
+// Parse the WakaTime README for language, most active day, and day-of-week commits
 function parseWakaTimeReadme(text) {
   // Parse "I'm Most Productive on ___"
   const dayMatch = text.match(/Most Productive on (\w+)/i);
@@ -43,6 +48,38 @@ function parseWakaTimeReadme(text) {
   // Parse "I Mostly Code in ___" — just the language name, no percentage
   const langMatch = text.match(/Mostly Code in (\w[\w#+]*)/i);
   if (langMatch) liveStats.topLang = langMatch[1];
+
+  // Parse day-of-week commit table
+  // Format: "Monday                   226 commits         ███░░░   13.73 %"
+  const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const dayShort = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  const counts = [];
+  let foundAny = false;
+
+  dayOrder.forEach(day => {
+    const re = new RegExp(day + '\\s+(\\d+)\\s+commits', 'i');
+    const m = text.match(re);
+    if (m) {
+      counts.push(parseInt(m[1], 10));
+      foundAny = true;
+    } else {
+      counts.push(0);
+    }
+  });
+
+  if (foundAny && counts.some(c => c > 0)) {
+    let peakVal = 0, peakIdx = 0;
+    counts.forEach((v, i) => {
+      if (v > peakVal) { peakVal = v; peakIdx = i; }
+    });
+    wakaWeekData = {
+      data: counts,
+      labels: dayShort,
+      peakIdx,
+      peakDay: dayShort[peakIdx],
+      peakVal,
+    };
+  }
 }
 
 // Fetch real total contributions from GitHub Streak Stats SVG
@@ -54,14 +91,11 @@ async function fetchStreakStats() {
     );
     if (res.ok) {
       const svgText = await res.text();
-      // The SVG contains the total contributions as text, e.g. "615"
-      // It appears in a <text> element after "Total Contributions"
       const totalMatch = svgText.match(/<text[^>]*>(\d+)<\/text>/);
       if (totalMatch) {
         liveStats.commits = parseInt(totalMatch[1], 10);
         return;
       }
-      // Alternative: look for the number near "Total Contributions"
       const altMatch = svgText.match(/(\d+)\s*<\/text>\s*[\s\S]*?Total Contributions/i);
       if (altMatch) {
         liveStats.commits = parseInt(altMatch[1], 10);
@@ -75,7 +109,7 @@ async function fetchStreakStats() {
 
 // Main fetch function
 async function fetchGitHubStats() {
-  // Fetch README for language and most active day
+  // Fetch README for language, most active day, and day-of-week commits
   try {
     const readmeRes = await fetch(
       `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_USER}/main/README.md`,
@@ -117,16 +151,112 @@ async function fetchGitHubStats() {
   if (liveStats.commits === '—') liveStats.commits = 615;
 
   renderStats();
+
+  // Now fetch sparkline data (after README is parsed so wakaWeekData is available)
+  fetchSparkData();
 }
 
 // Kick off the fetch on page load
 fetchGitHubStats();
 
-// ===== Sparkline — commits per day, Saturday peaks =====
+// ===== Sparkline — real commits per day from GitHub Events API =====
 const sparkCanvas = document.getElementById('spark');
 const sparkCtx = sparkCanvas.getContext('2d');
-const dayLabels = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-let sparkData = [8, 14, 6, 4, 9, 23, 11];
+const SHORT_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+let sparkData = [0, 0, 0, 0, 0, 0, 0];
+let dayLabels = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+let peakIdx = 0;
+
+// Build the last 7 days as date strings and labels
+function getLast7Days() {
+  const days = [];
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    days.push({
+      dateStr: d.toISOString().slice(0, 10),
+      label: SHORT_DAYS[d.getDay()],
+    });
+  }
+  return days;
+}
+
+// Fetch sparkline data: try Events API, fall back to WakaTime day-of-week
+async function fetchSparkData() {
+  const last7 = getLast7Days();
+  let usedRealData = false;
+
+  try {
+    let allEvents = [];
+    for (let page = 1; page <= 3; page++) {
+      const res = await fetch(
+        `https://api.github.com/users/${GITHUB_USER}/events/public?per_page=100&page=${page}`
+      );
+      if (!res.ok) break;
+      const events = await res.json();
+      if (events.length === 0) break;
+      allEvents = allEvents.concat(events);
+
+      const oldest = new Date(events[events.length - 1].created_at);
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 7);
+      if (oldest < cutoff) break;
+    }
+
+    // Count commits per day
+    const countByDate = {};
+    last7.forEach(d => { countByDate[d.dateStr] = 0; });
+
+    allEvents.forEach(ev => {
+      if (ev.type === 'PushEvent' && ev.payload && ev.payload.commits) {
+        const evDate = ev.created_at.slice(0, 10);
+        if (countByDate[evDate] !== undefined) {
+          countByDate[evDate] += ev.payload.commits.length;
+        }
+      }
+    });
+
+    const realData = last7.map(d => countByDate[d.dateStr]);
+    const totalReal = realData.reduce((a, b) => a + b, 0);
+
+    if (totalReal > 0) {
+      // We have real last-7-days data
+      sparkData = realData;
+      dayLabels = last7.map(d => d.label);
+      usedRealData = true;
+      document.getElementById('spark-label').textContent = 'commits · last 7 days';
+    }
+  } catch (err) {
+    console.warn('Events API failed:', err);
+  }
+
+  // If no real data, fall back to WakaTime day-of-week distribution
+  if (!usedRealData && wakaWeekData) {
+    sparkData = wakaWeekData.data;
+    dayLabels = wakaWeekData.labels;
+    peakIdx = wakaWeekData.peakIdx;
+
+    document.getElementById('spark-label').textContent = 'activity · by day';
+    // spark-peak already set by renderStats
+
+    drawSpark();
+    return;
+  }
+
+  // Find peak for real data
+  let maxVal = 0;
+  peakIdx = 0;
+  sparkData.forEach((v, i) => {
+    if (v > maxVal) { maxVal = v; peakIdx = i; }
+  });
+
+  // spark-peak already set by renderStats
+  document.getElementById('spark-label').textContent =
+    usedRealData ? 'commits · last 7 days' : 'activity · by day';
+
+  drawSpark();
+}
 
 function drawSpark() {
   const dpr = window.devicePixelRatio || 1;
@@ -139,7 +269,7 @@ function drawSpark() {
   sparkCtx.clearRect(0, 0, w, h);
 
   const min = 0;
-  const max = Math.max(...sparkData) * 1.15;
+  const max = Math.max(...sparkData, 1) * 1.15;
   const range = max - min || 1;
   const stepX = w / (sparkData.length - 1);
 
@@ -182,9 +312,9 @@ function drawSpark() {
   sparkData.forEach((v, i) => {
     const x = i * stepX;
     const y = h - ((v - min) / range) * (h - 12) - 6;
-    sparkCtx.fillStyle = i === 5 ? '#f97316' : 'rgba(217, 119, 6, 0.4)';
+    sparkCtx.fillStyle = i === peakIdx ? '#f97316' : 'rgba(217, 119, 6, 0.4)';
     sparkCtx.beginPath();
-    sparkCtx.arc(x, y, i === 5 ? 3 : 1.5, 0, Math.PI * 2);
+    sparkCtx.arc(x, y, i === peakIdx ? 3 : 1.5, 0, Math.PI * 2);
     sparkCtx.fill();
   });
 
@@ -197,7 +327,6 @@ function drawSpark() {
   });
 }
 
-window.addEventListener('load', drawSpark);
 window.addEventListener('resize', drawSpark);
 
 // ===== Git log stream =====
