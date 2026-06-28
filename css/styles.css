@@ -86,7 +86,6 @@ header {
 }
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand-mark { color: var(--orange); font-weight: 600; }
-.brand-name { color: var(--text); }
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -109,6 +108,11 @@ header {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.35; }
 }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 nav.routes { display: flex; gap: 22px; }
 nav.routes a {
   color: var(--text-dim);
@@ -116,6 +120,50 @@ nav.routes a {
 }
 nav.routes a:hover { color: var(--orange-bright); }
 nav.routes a::before { content: '/'; color: var(--text-mute); margin-right: 1px; }
+.header-socials {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 4px;
+  border-left: 1px solid var(--border-bright);
+  padding-left: 16px;
+}
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+.header-icon svg {
+  width: 15px;
+  height: 15px;
+}
+.header-icon:hover { color: var(--orange-bright); }
+.header-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px 4px 8px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.15s, color 0.15s;
+}
+.header-cv svg {
+  width: 14px;
+  height: 14px;
+}
+.header-cv:hover {
+  background: var(--orange);
+  color: var(--bg);
+}
 
 /* ===== HERO ===== */
 .hero {
@@ -136,6 +184,15 @@ h1.headline {
   letter-spacing: -0.03em;
   margin-bottom: 32px;
   color: var(--text);
+}
+.hero-name {
+  display: block;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--orange);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
 }
 h1.headline em {
   font-style: normal;
@@ -752,6 +809,8 @@ footer {
   .award-title { font-size: 24px; }
   nav.routes { display: none; }
   .status-pill { display: none; }
+  .header-socials { border-left: none; padding-left: 0; gap: 4px; }
+  .header-actions { gap: 10px; }
   .section-title { font-size: 30px; }
   h1.headline { font-size: 34px; }
   section.block { padding: 64px 0; }
