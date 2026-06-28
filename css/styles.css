@@ -188,7 +188,7 @@ h1.headline {
 .hero-name {
   display: block;
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--orange);
   letter-spacing: 0.04em;
