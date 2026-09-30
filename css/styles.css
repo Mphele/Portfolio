@@ -66,7 +66,14 @@ html[data-theme="dark"] .moon { display: block; }
 .portrait-art::before { content: ""; position: absolute; width: 360px; height: 360px; right: 3%; top: 17%; border-radius: 50%; background: var(--accent); opacity: .92; }
 .portrait-art::after { content: ""; position: absolute; inset: 9% 0 4%; border: 1px solid var(--line); transform: rotate(2deg); z-index: -1; }
 .portrait-art img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: contrast(1.02); }
-.sketch-note { position: absolute; right: -8px; top: 11%; z-index: 2; writing-mode: vertical-rl; color: var(--faint); font: 600 9px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+.portrait-manifesto { position: absolute; left: 1%; top: 10%; z-index: 3; display: grid; color: var(--faint); font: 600 10px/1.5 var(--mono); letter-spacing: .08em; text-transform: lowercase; }
+.portrait-manifesto span::before { content: "// "; color: var(--accent); }
+.portrait-signature { position: absolute; left: -2%; top: 47%; z-index: 3; color: var(--ink); font: 700 38px/.78 "Caveat", "Segoe Print", cursive; letter-spacing: -.04em; transform: rotate(-8deg); text-shadow: 0 1px 0 var(--paper); }
+.portrait-signature span { display: block; }
+.portrait-signature span + span { margin-left: 18px; }
+.portrait-signature::after { content: ""; display: block; width: 82px; height: 3px; margin: 10px 0 0 8px; background: var(--accent); transform: rotate(-5deg); }
+.sketch-note { position: absolute; right: -1%; bottom: 16%; z-index: 3; display: grid; padding: 8px 9px 7px; color: var(--ink); background: color-mix(in srgb, var(--paper) 90%, transparent); border-left: 2px solid var(--accent); font: 600 10px/1.45 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+.sketch-note::after { content: ""; width: 24px; height: 2px; margin-top: 7px; background: var(--accent); }
 
 .work-section, .wins-section { border-block: 1px solid var(--line); background: color-mix(in srgb, var(--paper-2) 68%, transparent); }
 .work-section { padding-block: 98px 110px; }
@@ -177,6 +184,9 @@ footer strong { color: var(--ink); font-size: 16px; text-transform: none; }
   .button { padding-inline: 14px; gap: 10px; font-size: 11px; }
   .portrait-art { width: 100%; height: 480px; }
   .portrait-art::before { width: 260px; height: 260px; }
+  .portrait-manifesto { left: 0; top: 8%; font-size: 8px; }
+  .portrait-signature { left: 0; top: 45%; font-size: 29px; }
+  .sketch-note { right: 0; bottom: 10%; font-size: 8px; }
   .work-section, .wins-section, .about-section { padding-block: 72px; }
   .section-heading { align-items: start; flex-direction: column; gap: 16px; margin-bottom: 30px; }
   .section-heading h2, .about-section h2, .contact-section h2 { font-size: 43px; }
