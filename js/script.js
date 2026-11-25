@@ -34,7 +34,10 @@ const projects = {
     result: '🏆 Geekulcha 2026 · 1st place · Telkom FutureMakers Hack Star of the Year',
     image: 'img/limi-landing.png',
     alt: 'Limi landing page showing multilingual speech and South African Sign Language learning features',
-    links: [{ label: 'View screenshot ↗', href: 'img/limi-landing.png' }]
+    links: [
+      { label: 'Visit Limi ↗', href: 'https://www.limi.africa/' },
+      { label: 'View screenshot ↗', href: 'img/limi-landing.png' }
+    ]
   },
   doria: {
     label: 'Security tooling · 2026',
