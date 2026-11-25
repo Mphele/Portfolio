@@ -31,7 +31,7 @@ const projects = {
       'Designed with an offline-first learner experience for constrained environments.'
     ],
     tags: ['OCR', 'Speech', 'SASL', 'Offline-first', 'API'],
-    result: '🏆 Geekulcha Annual Hackathon 2026 · 1st place',
+    result: '🏆 Geekulcha 2026 · 1st place · Telkom FutureMakers Hack Star of the Year',
     image: 'img/limi-landing.png',
     alt: 'Limi landing page showing multilingual speech and South African Sign Language learning features',
     links: [{ label: 'View screenshot ↗', href: 'img/limi-landing.png' }]
@@ -162,6 +162,14 @@ projectTabs.forEach((tab, index) => {
 });
 
 const wins = {
+  hackstar: {
+    rank: 'Hack Star of the Year',
+    title: 'Telkom FutureMakers Transformation & Innovation Awards',
+    copy: 'Limi was named Hack Star of the Year for its work making digital learning more accessible through multilingual speech, structured content, offline-first delivery and 3D South African Sign Language.',
+    image: 'img/limi-hack-star-2026.jpg',
+    alt: 'Limi receiving the Hack Star of the Year award at the Telkom FutureMakers Transformation and Innovation Awards',
+    caption: 'Limi · Telkom FutureMakers Transformation & Innovation Awards · November 2026'
+  },
   geekulcha: {
     rank: '1st place',
     title: 'Geekulcha Annual Hackathon 2026',
